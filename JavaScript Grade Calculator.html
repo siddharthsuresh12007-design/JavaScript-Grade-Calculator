@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Grade Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #2563eb, #9333ea);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            width: 350px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2563eb;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eff6ff;
+            border-radius: 8px;
+            display: none;
+            line-height: 1.8;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Grade Calculator</h2>
+
+    <form id="gradeForm">
+
+        <label>Subject 1:</label>
+        <input type="number" id="s1" placeholder="Enter marks">
+
+        <label>Subject 2:</label>
+        <input type="number" id="s2" placeholder="Enter marks">
+
+        <label>Subject 3:</label>
+        <input type="number" id="s3" placeholder="Enter marks">
+
+        <label>Subject 4:</label>
+        <input type="number" id="s4" placeholder="Enter marks">
+
+        <label>Subject 5:</label>
+        <input type="number" id="s5" placeholder="Enter marks">
+
+        <button type="submit">Calculate Grade</button>
+
+    </form>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+document.getElementById("gradeForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    let marks = [
+        document.getElementById("s1").value,
+        document.getElementById("s2").value,
+        document.getElementById("s3").value,
+        document.getElementById("s4").value,
+        document.getElementById("s5").value
+    ];
+
+    let result = document.getElementById("result");
+
+    // Input Validation
+    for (let i = 0; i < 5; i++) {
+
+        if (marks[i] === "" || Number(marks[i]) < 0 || Number(marks[i]) > 100) {
+
+            result.style.display = "block";
+            result.innerHTML = "<p class='error'>Please enter valid marks between 0 and 100 for all subjects.</p>";
+
+            return;
+        }
+    }
+
+    // Convert values into numbers
+    marks = marks.map(Number);
+
+    // Calculate Total and Average
+    let total = marks.reduce((sum, mark) => sum + mark, 0);
+
+    let average = total / 5;
+
+    // Grade Calculation
+    let grade;
+
+    if (average >= 90) {
+        grade = "A+";
+    }
+    else if (average >= 80) {
+        grade = "A";
+    }
+    else if (average >= 70) {
+        grade = "B";
+    }
+    else if (average >= 60) {
+        grade = "C";
+    }
+    else if (average >= 50) {
+        grade = "D";
+    }
+    else {
+        grade = "F";
+    }
+
+    // Display Result
+    result.style.display = "block";
+
+    result.innerHTML = `
+        <h3>Student Result</h3>
+        Total Marks: ${total} / 500 <br>
+        Average: ${average.toFixed(2)}% <br>
+        Grade: <b>${grade}</b>
+    `;
+
+});
+
+</script>
+
+</body>
+</html>
